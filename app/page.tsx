@@ -47,7 +47,7 @@ export default function HomePage() {
             </p>
 
             <div className="flex items-center gap-4">
-              <Link href="/auth">
+              <Link href="/auth/login">
                 <Button size="lg">Login</Button>
               </Link>
               <a href="#features" className="inline-flex items-center">
@@ -241,7 +241,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
           <p>© {year} Visayas State University</p>
           <nav className="flex gap-4">
-            <Link href="/auth">Login</Link>
+            <Link href="/auth/login">Login</Link>
             <a href="https://vsu.edu.ph" target="_blank" rel="noreferrer">
               vsu.edu.ph
             </a>
