@@ -24,9 +24,9 @@ export default async function StudentDashBoard() {
 
   const { data: record } = await supabase
     .from("conduct_reports")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .eq("student_id", user?.id);
+    .select(`*, staff_profiles (full_name, title)`)
+    .eq("student_id", user?.id)
+    .order("created_at", { ascending: false });
 
   const safeRecords = record || [];
 
@@ -37,6 +37,8 @@ export default async function StudentDashBoard() {
   const totalMerits = safeRecords.length - totalDemerits;
 
   const netSanctionDays = totalDemerits - totalMerits;
+
+  const recentConductArr = safeRecords.slice(0, 3);
 
   return (
     <div className="flex flex-col w-full p-8 gap-5">
@@ -75,33 +77,30 @@ export default async function StudentDashBoard() {
             <CardDescription>Your latest merits and demerits</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-5">
-            <ConductCard
-              description="Late Submission of Clinical Journal"
-              value={2}
-              type="demerits"
-              date="2025-10-20"
-              reporter="Dr. Rodriguez"
-              badge_color="bg-[#FF6900]"
-              border_color="border-[#FF6900]"
-            />
-            <ConductCard
-              description="Late Submission of Clinical Journal"
-              value={2}
-              type="demerits"
-              date="2025-10-20"
-              reporter="Dr. Rodriguez"
-              badge_color="bg-[#FF6900]"
-              border_color="border-[#FF6900]"
-            />
-            <ConductCard
-              description="Late Submission of Clinical Journal"
-              value={2}
-              type="demerits"
-              date="2025-10-20"
-              reporter="Dr. Rodriguez"
-              badge_color="bg-[#FF6900]"
-              border_color="border-[#FF6900]"
-            />
+            {recentConductArr.map((conduct) => (
+              <ConductCard
+                key={conduct.id}
+                description={conduct.description}
+                value={Math.abs(conduct.sanction_days)}
+                type={conduct.sanction_days > 0 ? "demerit/s" : "merit/s"}
+                date={new Date(conduct.created_at).toISOString().split("T")[0]}
+                reporter={`${conduct.staff_profiles.title} ${conduct.staff_profiles.full_name}`}
+                badge_color={
+                  conduct.is_serious_infraction
+                    ? "bg-[#FB2C36]"
+                    : conduct.sanction_days > 0
+                    ? "bg-[#FF6900]"
+                    : "bg-[#00C950]"
+                }
+                border_color={
+                  conduct.is_serious_infraction
+                    ? "border-[#FB2C36]"
+                    : conduct.sanction_days > 0
+                    ? "border-[#FF6900]"
+                    : "border-[#00C950]"
+                }
+              />
+            ))}
           </CardContent>
         </Card>
       </div>
