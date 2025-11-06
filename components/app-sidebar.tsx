@@ -34,7 +34,7 @@ export default function AppSidebar({ items, profile, role }: AppSidebarProps) {
           </div>
           <h1>VSU NCS</h1>
         </div>
-        <span className="text-sm text-muted-foreground">Student Portal</span>
+        <span className="text-sm text-muted-foreground">{`${role} Portal`}</span>
       </SidebarHeader>
 
       <SidebarContent className="flex-1 overflow-y-auto">

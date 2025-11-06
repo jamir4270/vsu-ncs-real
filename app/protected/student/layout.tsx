@@ -51,7 +51,11 @@ export default async function StudentLayout({
 
         {/* Sidebar */}
         <div className="z-50">
-          <AppSidebar items={items} profile={userProfile?.full_name ?? ""} />
+          <AppSidebar
+            items={items}
+            profile={userProfile?.full_name ?? ""}
+            role="Student"
+          />
         </div>
 
         {/* Main Content */}
