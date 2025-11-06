@@ -31,7 +31,7 @@ export default async function StudentLayout({
       icon: LayoutDashboard,
     },
     {
-      title: "Conduct History",
+      title: "Conduct Records",
       url: "/protected/student/conduct-records",
       icon: History,
     },
