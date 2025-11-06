@@ -6,6 +6,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import TotalsCard from "./_components/totals-card";
+
 import { Badge } from "@/components/ui/badge";
 //import { TriangleAlert } from "lucide-react";
 
@@ -19,33 +21,24 @@ export default function StudentDashBoard() {
         </p>
       </div>
       <div className="flex flex-col sm:flex-row w-full gap-5">
-        <Card className="flex-1">
-          <CardHeader>
-            <CardTitle>Total Demerit Hours</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            <h1 className="text-[#0A58A3] text-3xl">12</h1>
-            <p className="text-[#6C757D]">This semester</p>
-          </CardContent>
-        </Card>
-        <Card className="flex-1">
-          <CardHeader>
-            <CardTitle>Total Demerits</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            <h1 className="text-[#0A58A3] text-3xl">12</h1>
-            <p className="text-[#6C757D]">Violations recorded</p>
-          </CardContent>
-        </Card>
-        <Card className="flex-1">
-          <CardHeader>
-            <CardTitle>Total Merits</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            <h1 className="text-[#00C950] text-3xl">12</h1>
-            <p className="text-[#6C757D]">Recognitions earned</p>
-          </CardContent>
-        </Card>
+        <TotalsCard
+          title="Net Sanction Days"
+          total={12}
+          color="text-[#FF6900]"
+          description={`Equivalent to ${24} hours of service`}
+        />
+        <TotalsCard
+          title="Total Demerits"
+          total={12}
+          color="text-[#0A58A3]"
+          description="This semester"
+        />
+        <TotalsCard
+          title="Total Merits"
+          total={12}
+          color="text-[#00C950]"
+          description="This semester"
+        />
       </div>
       <div>
         <Card className="flex-1">
