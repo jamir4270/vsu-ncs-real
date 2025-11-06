@@ -67,7 +67,7 @@ export default async function StudentLayout({
           <AppSidebar
             items={items}
             profile={`${userProfile?.title} ${userProfile?.full_name}`}
-            role="Faculty"
+            role="Admin"
           />
         </div>
 
