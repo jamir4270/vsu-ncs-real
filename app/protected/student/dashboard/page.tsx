@@ -9,7 +9,6 @@ import {
 
 import TotalsCard from "./_components/totals-card";
 import ConductCard from "./_components/conduct-card";
-import { totalmem } from "os";
 
 export default async function StudentDashBoard() {
   const supabase = await createClient();
