@@ -32,7 +32,7 @@ export default async function StudentLayout({
     },
     {
       title: "Conduct History",
-      url: "/protected/student/conduct-history",
+      url: "/protected/student/conduct-records",
       icon: History,
     },
   ];
