@@ -9,15 +9,18 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { SidebarProps } from "@/types";
-import { BriefcaseMedical, LogOut } from "lucide-react";
+import { BriefcaseMedical } from "lucide-react";
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import Link from "next/link";
+import { LogoutButton } from "./logout-button";
 
 type AppSidebarProps = {
   items: SidebarProps[];
+  profile: string;
+  role: string;
 };
 
-export default function AppSidebar({ items }: AppSidebarProps) {
+export default function AppSidebar({ items, profile, role }: AppSidebarProps) {
   return (
     <Sidebar
       collapsible="offcanvas"
@@ -56,17 +59,14 @@ export default function AppSidebar({ items }: AppSidebarProps) {
         <div className="w-full">
           <Card className="h-fit">
             <CardHeader className="p-3 space-y-1">
-              <CardTitle>Maria Santos</CardTitle>
-              <CardDescription>Student</CardDescription>
+              <CardTitle>{profile}</CardTitle>
+              <CardDescription>{role}</CardDescription>
             </CardHeader>
           </Card>
         </div>
         <SidebarMenuItem className="w-full">
           <SidebarMenuButton asChild>
-            <a href="/auth" className="flex items-center justify-center">
-              <LogOut className="mr-3 h-5 w-5" />
-              <span className="text-[16px]">Log out</span>
-            </a>
+            <LogoutButton />
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarFooter>

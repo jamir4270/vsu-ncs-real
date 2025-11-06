@@ -1,20 +1,40 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/app-sidebar";
-import { LayoutDashboard, History, Bell, BriefcaseMedical } from "lucide-react";
-
-export default function StudentLayout({
+import { LayoutDashboard, History, BriefcaseMedical } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+export default async function StudentLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const userRole = user?.app_metadata?.role;
+  let userProfile = null;
+
+  if (userRole === "student") {
+    const { data: profile } = await supabase
+      .from("student_profiles")
+      .select("full_name")
+      .eq("id", user?.id)
+      .single();
+    userProfile = profile;
+  }
+
   const items = [
-    { title: "Dashboard", url: "/student/dashboard", icon: LayoutDashboard },
+    {
+      title: "Dashboard",
+      url: "/protected/student/dashboard",
+      icon: LayoutDashboard,
+    },
     {
       title: "Conduct History",
-      url: "/student/conduct-history",
+      url: "/protected/student/conduct-history",
       icon: History,
     },
-    { title: "Notifications", url: "/student/notifications", icon: Bell },
   ];
   return (
     <SidebarProvider>
@@ -31,11 +51,11 @@ export default function StudentLayout({
 
         {/* Sidebar */}
         <div className="z-50">
-          <AppSidebar items={items} />
+          <AppSidebar items={items} profile={userProfile?.full_name ?? ""} />
         </div>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto bg-[#F8F9FA] pt-16 md:ml-56 md:pt-0">
+        <main className="flex-1 overflow-y-auto bg-[#F8F9FA] pt-16 md:ml-60 md:pt-0">
           {children}
         </main>
       </div>
