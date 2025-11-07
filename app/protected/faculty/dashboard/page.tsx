@@ -45,7 +45,7 @@ export default async function StudentDashBoard() {
           profile?.full_name ?? "Faculty"
         }!`}</h1>
         <p className="text-[#6C757D]">
-          Here&apos;s an overview of your conduct record this semester.
+          Quick access to conduct management tools
         </p>
       </div>
       <div className="flex flex-col sm:flex-row w-full gap-5">
@@ -67,7 +67,7 @@ export default async function StudentDashBoard() {
         <Card className="flex-1">
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>Your latest merits and demerits</CardDescription>
+            <CardDescription>Your recently logged incidents</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-5">
             {recentRecordArr.map((item) => (
