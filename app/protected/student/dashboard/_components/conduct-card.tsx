@@ -32,7 +32,9 @@ export default function ConductCard({
         <CardHeader>
           <div className="flex flex-row justify-between">
             <CardTitle>{description}</CardTitle>
-            <Badge className={`${badge_color}`}>{`${value} ${type}`}</Badge>
+            <Badge className={`${badge_color}`}>{`${Math.abs(
+              value
+            )} ${type}`}</Badge>
           </div>
           <CardDescription>
             {" "}
