@@ -81,7 +81,7 @@ export default async function StudentDashBoard() {
               <ConductCard
                 key={conduct.id}
                 description={conduct.description}
-                value={Math.abs(conduct.sanction_days)}
+                value={conduct.sanction_days}
                 type={conduct.sanction_days > 0 ? "demerit/s" : "merit/s"}
                 date={new Date(conduct.created_at).toISOString().split("T")[0]}
                 reporter={`${conduct.staff_profiles.title} ${conduct.staff_profiles.full_name}`}
