@@ -1,6 +1,7 @@
 import { columns, Record } from "./columns";
 import { createClient } from "@/lib/supabase/server";
 import { DataTable } from "./data-table";
+import ConductCardList from "./conduct-card-list";
 
 async function getData(): Promise<Record[]> {
   const supabase = await createClient();
@@ -41,8 +42,11 @@ export default async function ConductRecords() {
           Complete record of all merits, demerits, and serious infractions.
         </p>
       </div>
-      <div className="container mx-auto p-4 bg-white rounded-2xl">
+      <div className="hidden md:block container mx-auto p-4 bg-white rounded-2xl">
         <DataTable columns={columns} data={data} />
+      </div>
+      <div className="md:hidden">
+        <ConductCardList data={data} />
       </div>
     </div>
   );
