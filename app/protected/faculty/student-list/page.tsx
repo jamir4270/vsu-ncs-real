@@ -32,11 +32,6 @@ async function getData(): Promise<StudentProfile[]> {
         year_level: record.year_level,
         sex: record.sex,
         net_sanction: netSanction,
-
-        // These fields are invalid here, they must be removed.
-        // description: record.description,
-        // is_serious_infraction: record.is_serious_infraction,
-        // type: ...
       };
     }) || [];
 
