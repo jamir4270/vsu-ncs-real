@@ -1,7 +1,7 @@
-import { columns, Record } from "./columns";
+import { columns, Record } from "./_components/columns";
 import { createClient } from "@/lib/supabase/server";
-import { DataTable } from "./data-table";
-import ConductCardList from "./conduct-card-list";
+import { DataTable } from "./_components/data-table";
+import ConductCardList from "./_components/conduct-card-list";
 
 async function getData(): Promise<Record[]> {
   const supabase = await createClient();

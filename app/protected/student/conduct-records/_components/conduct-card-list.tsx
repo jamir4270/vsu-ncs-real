@@ -1,6 +1,6 @@
 "use client";
 
-import ConductCard from "../dashboard/_components/conduct-card";
+import ConductCard from "../../dashboard/_components/conduct-card";
 import { Record } from "./columns";
 import { useState } from "react";
 import {
