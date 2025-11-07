@@ -8,7 +8,8 @@ import {
 } from "@/components/ui/card";
 
 import TotalsCard from "./_components/totals-card";
-import ConductCard from "./_components/conduct-card";
+import QuickActionCard from "./_components/quick-action-card";
+import RecordCard from "./_components/record-card";
 
 export default async function StudentDashBoard() {
   const supabase = await createClient();
@@ -17,57 +18,49 @@ export default async function StudentDashBoard() {
   } = await supabase.auth.getUser();
 
   const { data: profile } = await supabase
-    .from("student_profiles")
+    .from("staff_profiles")
     .select("*")
     .eq("id", user?.id)
     .single();
 
   const { data: record } = await supabase
     .from("conduct_reports")
-    .select(`*, staff_profiles (full_name, title)`)
-    .eq("student_id", user?.id)
+    .select(`*, student_profiles (full_name, student_id)`)
+    .eq("faculty_id", user?.id)
     .order("created_at", { ascending: false });
+
+  const { data: students } = await supabase
+    .from("student_profiles")
+    .select("*")
+    .order("full_name", { ascending: false });
 
   const safeRecords = record || [];
 
-  const totalDemerits = safeRecords.filter(
-    (row) => row.sanction_days > 0
-  ).length;
-
-  const totalMerits = safeRecords.length - totalDemerits;
-
-  const netSanctionDays = totalDemerits - totalMerits;
-
-  const recentConductArr = safeRecords.slice(0, 5);
+  const recentRecordArr = safeRecords.slice(0, 5);
 
   return (
     <div className="flex flex-col w-full p-8 gap-5">
       <div className="flex flex-col gap-2">
         <h1 className="text-[#0A58A3] text-2xl">{`Welcome, ${
-          profile?.full_name ?? "Student"
+          profile?.full_name ?? "Faculty"
         }!`}</h1>
         <p className="text-[#6C757D]">
           Here&apos;s an overview of your conduct record this semester.
         </p>
       </div>
       <div className="flex flex-col sm:flex-row w-full gap-5">
+        <QuickActionCard />
         <TotalsCard
-          title="Net Sanction Days"
-          total={netSanctionDays}
+          title="Total Reports Logged"
+          total={record?.length as number}
           color="text-[#FF6900]"
-          description={`Equivalent to ${netSanctionDays * 8} hours of service`}
-        />
-        <TotalsCard
-          title="Total Demerits"
-          total={totalDemerits}
-          color="text-[#0A58A3]"
           description="This semester"
         />
         <TotalsCard
-          title="Total Merits"
-          total={totalMerits}
+          title="Total Students"
+          total={students?.length as number}
           color="text-[#00C950]"
-          description="This semester"
+          description="Active nursing students"
         />
       </div>
       <div>
@@ -77,25 +70,26 @@ export default async function StudentDashBoard() {
             <CardDescription>Your latest merits and demerits</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-5">
-            {recentConductArr.map((conduct) => (
-              <ConductCard
-                key={conduct.id}
-                description={conduct.description}
-                value={conduct.sanction_days}
-                type={conduct.sanction_days > 0 ? "demerit/s" : "merit/s"}
-                date={new Date(conduct.created_at).toISOString().split("T")[0]}
-                reporter={`${conduct.staff_profiles.title} ${conduct.staff_profiles.full_name}`}
+            {recentRecordArr.map((item) => (
+              <RecordCard
+                key={item.id}
+                student_name={item.student_profiles.full_name}
+                student_id={item.student_profiles.student_id}
+                description={item.description}
+                value={item.sanction_days}
+                type={item.sanction_days > 0 ? "demerit/s" : "merit/s"}
+                date={new Date(item.created_at).toISOString().split("T")[0]}
                 badge_color={
-                  conduct.is_serious_infraction
+                  item.is_serious_infraction
                     ? "bg-[#FB2C36]"
-                    : conduct.sanction_days > 0
+                    : item.sanction_days > 0
                     ? "bg-[#FF6900]"
                     : "bg-[#00C950]"
                 }
                 border_color={
-                  conduct.is_serious_infraction
+                  item.is_serious_infraction
                     ? "border-[#FB2C36]"
-                    : conduct.sanction_days > 0
+                    : item.sanction_days > 0
                     ? "border-[#FF6900]"
                     : "border-[#00C950]"
                 }

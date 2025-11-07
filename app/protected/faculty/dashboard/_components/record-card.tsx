@@ -1,5 +1,7 @@
+"use client";
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -7,40 +9,42 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 
-type ConductCardProps = {
+type RecordCardProps = {
+  student_name: string;
+  student_id: string;
   description: string;
   value: number;
   type: string;
   date: string;
-  reporter: string;
   badge_color: string;
   border_color: string;
 };
 
-export default function ConductCard({
+export default function RecordCard({
+  student_name,
+  student_id,
   description,
   value,
   type,
   date,
-  reporter,
   badge_color,
   border_color,
-}: ConductCardProps) {
+}: RecordCardProps) {
   return (
     <div>
       <Card className={`${border_color} flex-1`}>
-        <CardHeader>
+        <CardHeader className="pb-2">
           <div className="flex flex-row justify-between">
-            <CardTitle>{description}</CardTitle>
+            <CardTitle>{`${student_name} · (${student_id})`}</CardTitle>
             <Badge className={`${badge_color}`}>{`${Math.abs(
               value
             )} ${type}`}</Badge>
           </div>
-          <CardDescription>
-            {" "}
-            {`${date} · Reported by ${reporter}`}
-          </CardDescription>
         </CardHeader>
+        <CardContent className="flex flex-col gap-2">
+          <h1>{description}</h1>
+          <p className="text-[#6C757D]">{date}</p>
+        </CardContent>
       </Card>
     </div>
   );
