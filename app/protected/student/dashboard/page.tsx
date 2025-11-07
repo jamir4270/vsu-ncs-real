@@ -38,7 +38,7 @@ export default async function StudentDashBoard() {
 
   const netSanctionDays = totalDemerits - totalMerits;
 
-  const recentConductArr = safeRecords.slice(0, 3);
+  const recentConductArr = safeRecords.slice(0, 5);
 
   return (
     <div className="flex flex-col w-full p-8 gap-5">
