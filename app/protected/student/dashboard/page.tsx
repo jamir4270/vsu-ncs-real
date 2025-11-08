@@ -30,13 +30,25 @@ export default async function StudentDashBoard() {
 
   const safeRecords = record || [];
 
-  const totalDemerits = safeRecords.filter(
-    (row) => row.sanction_days > 0
-  ).length;
+  function countSanctionDays(records: any[]) {
+    let merit = 0;
+    let demerit = 0;
+    let netSanction = 0;
 
-  const totalMerits = safeRecords.length - totalDemerits;
+    for (let i = 0; i < records.length; i++) {
+      const sanction = records[i].sanction_days ?? 0;
+      merit += sanction < 0 ? sanction : 0;
+      demerit += sanction > 0 ? sanction : 0;
+      netSanction += sanction;
+    }
 
-  const netSanctionDays = totalDemerits - totalMerits;
+    return { merit, demerit, netSanction };
+  }
+  const sanctionCount = countSanctionDays(safeRecords);
+
+  const netSanctionDays = sanctionCount.netSanction;
+  const totalDemerits = sanctionCount.demerit;
+  const totalMerits = Math.abs(sanctionCount.merit);
 
   const recentConductArr = safeRecords.slice(0, 5);
 
