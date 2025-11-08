@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Badge } from "@/components/ui/badge";
 
-type RecordCardProps = {
+export type RecordCardProps = {
   student_name: string;
   student_id: string;
   description: string;
@@ -26,7 +26,7 @@ export default function RecordCard({
 }: RecordCardProps) {
   return (
     <div>
-      <Card className={`${border_color} flex-1`}>
+      <Card className={`${border_color} flex-1 gap-1 border-l-4`}>
         <CardHeader className="pb-2">
           <div className="flex flex-row justify-between">
             <CardTitle>{`${student_name} · (${student_id})`}</CardTitle>
