@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { use, useState } from "react";
 import RecordCard from "../../dashboard/_components/record-card";
 import { Input } from "@/components/ui/input";
 import {
@@ -21,6 +21,7 @@ type ReportCardListProps = {
 export default function ReportCardList({ data }: ReportCardListProps) {
   const [type, setType] = useState("All Types");
   const [reports, setReports] = useState(data);
+  const [reportCount, setReportCount] = useState(data.length);
 
   const safeReports = data;
   let tempReports = data;
@@ -35,6 +36,7 @@ export default function ReportCardList({ data }: ReportCardListProps) {
       );
     });
     setReports(tempReports);
+    setReportCount(tempReports.length);
   }
 
   function filterByType(value: string) {
@@ -51,14 +53,15 @@ export default function ReportCardList({ data }: ReportCardListProps) {
     });
     setType(value);
     setReports(tempReports);
+    setReportCount(tempReports.length);
   }
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row justify-between">
         <div className="text-[18px]">
-          <h1 className="font-semibold">Conduct Records</h1>
-          <p className="text-[#6C757D]">{`${safeReports.length} record(s) found`}</p>
+          <h1 className="font-semibold">Conduct Reports</h1>
+          <p className="text-[#6C757D]">{`${reportCount} record(s) found`}</p>
         </div>
         <div className="flex flex-row gap-4">
           <Input

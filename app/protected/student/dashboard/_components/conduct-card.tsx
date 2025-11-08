@@ -28,7 +28,7 @@ export default function ConductCard({
 }: ConductCardProps) {
   return (
     <div>
-      <Card className={`${border_color} flex-1`}>
+      <Card className={`${border_color} flex-1 border-l-4`}>
         <CardHeader>
           <div className="flex flex-row justify-between">
             <CardTitle>{description}</CardTitle>
