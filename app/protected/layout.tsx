@@ -57,6 +57,11 @@ export default async function StudentLayout({
         url: "/protected/faculty/student-list",
         icon: History,
       },
+      {
+        title: "Reports",
+        url: "/protected/faculty/reports",
+        icon: History,
+      },
     ];
   }
 
