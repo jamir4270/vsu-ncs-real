@@ -38,33 +38,35 @@ export default function ReportCardList({ data }: ReportCardListProps) {
   }
 
   function filterByType(value: string) {
-    setType(value);
     tempReports = safeReports.filter((record) => {
-      if (type === "Serious Infraction") {
-        return record.type === "Serious Infraction";
-      } else if (type === "Merit") {
-        return record.type === "Merit";
-      } else if (type === "Demerit") {
-        return record.type === "Demerit";
+      if (value === "Serious Infraction") {
+        return record.is_serious_infraction;
+      } else if (value === "Merit") {
+        return record.sanction_days < 0;
+      } else if (value === "Demerit") {
+        return record.sanction_days > 0;
       } else {
         return safeReports;
       }
     });
+    setType(value);
     setReports(tempReports);
   }
 
   return (
-    <div>
-      <div>
-        <div>
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-row justify-between">
+        <div className="text-[18px]">
+          <h1 className="font-semibold">Conduct Records</h1>
+          <p className="text-[#6C757D]">{`${safeReports.length} record(s) found`}</p>
+        </div>
+        <div className="flex flex-row gap-4">
           <Input
             placeholder="Search by id or name..."
             onChange={(event) => {
               searchFilter(event.target.value ?? "");
             }}
           />
-        </div>
-        <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="w-full sm:w-auto">
@@ -102,7 +104,7 @@ export default function ReportCardList({ data }: ReportCardListProps) {
           </DropdownMenu>
         </div>
       </div>
-      <div>
+      <div className="flex flex-col gap-4">
         {reports.map((item) => (
           <RecordCard
             key={item.id}

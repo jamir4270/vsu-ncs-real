@@ -1,8 +1,19 @@
 import ReportCardList from "./_components/report-card-list";
-import { useClient } from "@/lib/supabase/server";
+import { RecordCardProps } from "../dashboard/_components/record-card";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function ReportsPage() {
-  const supabase = await useClient();
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data: records } = await supabase
+    .from("conduct_reports")
+    .select("*, student_profiles(full_name, student_id)")
+    .eq("faculty_id", user?.id)
+    .order("created_at", { ascending: false });
 
   return (
     <div className="flex flex-col w-full p-8 gap-5">
@@ -13,7 +24,7 @@ export default async function ReportsPage() {
         </p>
       </div>
       <div>
-        <StudentCardList data={data} />
+        <ReportCardList data={records ?? []} />
       </div>
     </div>
   );
