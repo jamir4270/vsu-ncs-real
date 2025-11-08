@@ -57,8 +57,8 @@ export default function AppSidebar({ items, profile, role }: AppSidebarProps) {
       <SidebarFooter className="w-full p-4 flex flex-col gap-4 border-t border-gray-300">
         {" "}
         <div className="w-full">
-          <Card className="h-fit">
-            <CardHeader className="p-3 space-y-1">
+          <Card className="h-fit py-3">
+            <CardHeader>
               <CardTitle>{profile}</CardTitle>
               <CardDescription>{role}</CardDescription>
             </CardHeader>
