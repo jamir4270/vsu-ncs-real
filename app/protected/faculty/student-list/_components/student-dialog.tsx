@@ -19,6 +19,7 @@ type StudentDialogProps = {
 };
 
 export function StudentDialog({ id }: StudentDialogProps) {
+  console.log(id);
   return (
     <Dialog>
       <form>
