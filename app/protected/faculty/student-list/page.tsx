@@ -1,7 +1,7 @@
 import { columns, StudentProfile } from "./_components/columns";
 import { createClient } from "@/lib/supabase/server";
 import { DataTable } from "./_components/data-table";
-import ConductCardList from "./_components/conduct-card-list";
+import StudentCardList from "./_components/student-card-list";
 
 async function getData(): Promise<StudentProfile[]> {
   const supabase = await createClient();
@@ -51,7 +51,7 @@ export default async function ConductRecords() {
         <DataTable columns={columns} data={data} />
       </div>
       <div className="md:hidden">
-        <ConductCardList data={data} />
+        <StudentCardList data={data} />
       </div>
     </div>
   );

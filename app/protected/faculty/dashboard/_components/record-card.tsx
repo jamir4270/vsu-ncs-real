@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Badge } from "@/components/ui/badge";
 
-type RecordCardProps = {
+export type RecordCardProps = {
   student_name: string;
   student_id: string;
   description: string;
