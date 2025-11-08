@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import RecordCard from "../../dashboard/_components/record-card";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,47 +14,82 @@ import {
 
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+interface StudentProfile {
+  student_id: string;
+  full_name: string;
+}
+
+interface Report {
+  id: string;
+  student_profiles: StudentProfile;
+  description: string;
+  sanction_days: number;
+  is_serious_infraction: boolean;
+  created_at: string;
+}
+
 type ReportCardListProps = {
-  data: any[];
+  data: Report[];
 };
 
 export default function ReportCardList({ data }: ReportCardListProps) {
   const [type, setType] = useState("All Types");
+  const [searchQuery, setSearchQuery] = useState("");
   const [reports, setReports] = useState(data);
   const [reportCount, setReportCount] = useState(data.length);
 
-  const safeReports = data;
-  let tempReports = data;
+  // Combined filter function that applies both search and type filters
+  const applyFilters = useCallback(
+    (search: string, filterType: string) => {
+      const filtered = data.filter((item) => {
+        // First apply search filter
+        const matchesSearch =
+          search === "" ||
+          item.student_profiles.student_id.includes(search) ||
+          item.student_profiles.full_name
+            .toLowerCase()
+            .includes(search.toLowerCase());
 
-  function searchFilter(value: string) {
-    tempReports = safeReports.filter((item) => {
-      return (
-        item.student_profiles.student_id.includes(value) ||
-        item.student_profiles.full_name
-          .toLowerCase()
-          .includes(value.toLowerCase())
-      );
-    });
-    setReports(tempReports);
-    setReportCount(tempReports.length);
-  }
+        // Then apply type filter
+        const matchesType =
+          filterType === "All Types"
+            ? true
+            : filterType === "Serious Infraction"
+            ? item.is_serious_infraction
+            : filterType === "Merit"
+            ? item.sanction_days < 0
+            : filterType === "Demerit"
+            ? item.sanction_days > 0
+            : true;
 
-  function filterByType(value: string) {
-    tempReports = safeReports.filter((record) => {
-      if (value === "Serious Infraction") {
-        return record.is_serious_infraction;
-      } else if (value === "Merit") {
-        return record.sanction_days < 0;
-      } else if (value === "Demerit") {
-        return record.sanction_days > 0;
-      } else {
-        return safeReports;
-      }
-    });
-    setType(value);
-    setReports(tempReports);
-    setReportCount(tempReports.length);
-  }
+        // Item must match both filters
+        return matchesSearch && matchesType;
+      });
+
+      setReports(filtered);
+      setReportCount(filtered.length);
+    },
+    [data]
+  );
+
+  // Handler for search input changes
+  const handleSearch = useCallback(
+    (value: string) => {
+      setSearchQuery(value);
+      applyFilters(value, type);
+    },
+    [type, applyFilters]
+  );
+
+  // Handler for type filter changes
+  const handleTypeFilter = useCallback(
+    (value: string) => {
+      setType(value);
+      applyFilters(searchQuery, value);
+    },
+    [searchQuery, applyFilters]
+  );
 
   return (
     <div className="flex flex-col gap-4">
@@ -66,9 +101,8 @@ export default function ReportCardList({ data }: ReportCardListProps) {
         <div className="flex flex-row gap-4">
           <Input
             placeholder="Search by id or name..."
-            onChange={(event) => {
-              searchFilter(event.target.value ?? "");
-            }}
+            value={searchQuery}
+            onChange={(event) => handleSearch(event.target.value ?? "")}
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -81,25 +115,25 @@ export default function ReportCardList({ data }: ReportCardListProps) {
               <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem
                 checked={type === "All Types"}
-                onCheckedChange={() => filterByType("All Types")}
+                onCheckedChange={() => handleTypeFilter("All Types")}
               >
                 All Types
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 checked={type === "Merit"}
-                onCheckedChange={() => filterByType("Merit")}
+                onCheckedChange={() => handleTypeFilter("Merit")}
               >
                 Merit
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 checked={type === "Demerit"}
-                onCheckedChange={() => filterByType("Demerit")}
+                onCheckedChange={() => handleTypeFilter("Demerit")}
               >
                 Demerit
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 checked={type === "Serious Infraction"}
-                onCheckedChange={() => filterByType("Serious Infraction")}
+                onCheckedChange={() => handleTypeFilter("Serious Infraction")}
               >
                 Serious Infraction
               </DropdownMenuCheckboxItem>
