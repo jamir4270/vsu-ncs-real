@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { useState } from "react";
 import RecordCard from "../../dashboard/_components/record-card";
 import { Input } from "@/components/ui/input";
 import {
