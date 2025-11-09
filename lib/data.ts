@@ -6,6 +6,7 @@ import {
   ConductReportWithReporter,
   StudentConductRecord,
   FacultyLoggedStudentRecord,
+  ConductReportWithStudent,
 } from "@/types";
 
 export async function fetchStudentProfiles() {
@@ -107,5 +108,29 @@ export async function fetchStudentConductRecordsWithReporter(id: string) {
       error
     );
     throw new Error("Failed to fetch student conduct record with reporter.");
+  }
+}
+
+export async function fetchFacultyReportsWithStudent(id: string) {
+  const supabase = await createClient();
+
+  try {
+    const { data, error } = await supabase
+      .from("conduct_reports")
+      .select("*, student_profiles (full_name, student_id)")
+      .eq("faculty_id", id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data as ConductReportWithStudent[];
+  } catch (error) {
+    console.error(
+      "Database Error: Failed to fetch faculty reports with student.",
+      error
+    );
+    throw new Error("Failed to fetch faculty reports with student.");
   }
 }

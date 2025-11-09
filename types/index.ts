@@ -35,7 +35,11 @@ export type ConductReport = {
 };
 
 export type ConductReportWithReporter = ConductReport & {
-  staff_profiles: Pick<StaffProfile, "full_name" | "title"> | null;
+  staff_profiles: Pick<StaffProfile, "full_name" | "title">;
+};
+
+export type ConductReportWithStudent = ConductReport & {
+  student_profiles: Pick<StudentProfile, "full_name" | "student_id">;
 };
 
 //Clean Data
