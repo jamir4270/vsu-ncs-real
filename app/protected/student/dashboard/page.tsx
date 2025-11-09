@@ -24,7 +24,7 @@ export default async function StudentDashBoard() {
   const record: ConductReportWithReporter[] =
     await fetchStudentConductRecordsWithReporter(user?.id as string);
 
-  const { data: profile } = await fetchStudentProfile(user?.id as string);
+  const profile = await fetchStudentProfile(user?.id as string);
 
   const safeRecords = record || [];
 

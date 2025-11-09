@@ -64,8 +64,8 @@ export async function fetchStaffProfile(id: string) {
 
     return data;
   } catch (error) {
-    console.error("Database error: Failed to fetch staff profile.", error);
-    throw new Error("Failed to fetch staff profile.");
+    console.error("Database error: Failed to fetch student profile.", error);
+    throw new Error("Failed to fetch student profile.");
   }
 }
 
