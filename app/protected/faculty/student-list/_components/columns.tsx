@@ -2,21 +2,20 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { StudentDialog } from "./student-dialog";
-import React from "react";
-// dropdown-menu not used in this file
+import { FacultyStudentRecord } from "@/types"; // dropdown-menu not used in this file
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type StudentProfile = {
+/*export type StudentProfile = {
   id: string;
   full_name: string;
   student_id: string;
   year_level: number;
   sex: string;
   net_sanction: number;
-};
+};*/
 
-export const columns: ColumnDef<StudentProfile>[] = [
+export const columns: ColumnDef<FacultyStudentRecord>[] = [
   { accessorKey: "full_name", header: "Name" },
   {
     accessorKey: "student_id",
@@ -36,7 +35,7 @@ export const columns: ColumnDef<StudentProfile>[] = [
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      return <StudentDialog id={row.id} />;
+      return <StudentDialog id={row.original.id} />;
     },
   },
 ];
