@@ -14,12 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-type StudentDialogProps = {
-  id: string;
-};
 
-export function StudentDialog({ id }: StudentDialogProps) {
-  console.log(id);
+export function StudentDialog() {
   return (
     <Dialog>
       <form>

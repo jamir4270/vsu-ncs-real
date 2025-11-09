@@ -25,7 +25,7 @@ export default function StudentCard({
         <CardTitle>{full_name}</CardTitle>
         <CardDescription>{student_id}</CardDescription>
         <CardAction>
-          <StudentDialog id={id} />
+          <StudentDialog />
         </CardAction>
       </CardHeader>
       <CardContent>{`${net_sanction} days`}</CardContent>
