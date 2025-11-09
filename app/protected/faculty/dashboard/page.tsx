@@ -10,6 +10,11 @@ import {
 import TotalsCard from "./_components/totals-card";
 import QuickActionCard from "./_components/quick-action-card";
 import RecordCard from "./_components/record-card";
+import {
+  fetchFacultyReportsWithStudent,
+  fetchStaffProfile,
+  fetchStudentProfiles,
+} from "@/lib/data";
 
 export default async function StudentDashBoard() {
   const supabase = await createClient();
@@ -17,22 +22,11 @@ export default async function StudentDashBoard() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: profile } = await supabase
-    .from("staff_profiles")
-    .select("*")
-    .eq("id", user?.id)
-    .single();
+  const profile = await fetchStaffProfile(user?.id as string);
 
-  const { data: record } = await supabase
-    .from("conduct_reports")
-    .select(`*, student_profiles (full_name, student_id)`)
-    .eq("faculty_id", user?.id)
-    .order("created_at", { ascending: false });
+  const record = await fetchFacultyReportsWithStudent(user?.id as string);
 
-  const { data: students } = await supabase
-    .from("student_profiles")
-    .select("*")
-    .order("full_name", { ascending: false });
+  const students = await fetchStudentProfiles();
 
   const safeRecords = record || [];
 

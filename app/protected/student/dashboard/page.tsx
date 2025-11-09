@@ -1,5 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
 import {
+  fetchStudentProfile,
+  fetchStudentConductRecordsWithReporter,
+} from "@/lib/data";
+import {
   Card,
   CardContent,
   CardDescription,
@@ -9,6 +13,7 @@ import {
 
 import TotalsCard from "./_components/totals-card";
 import ConductCard from "./_components/conduct-card";
+import { ConductReportWithReporter } from "@/types";
 
 export default async function StudentDashBoard() {
   const supabase = await createClient();
@@ -16,21 +21,14 @@ export default async function StudentDashBoard() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: profile } = await supabase
-    .from("student_profiles")
-    .select("*")
-    .eq("id", user?.id)
-    .single();
+  const record: ConductReportWithReporter[] =
+    await fetchStudentConductRecordsWithReporter(user?.id as string);
 
-  const { data: record } = await supabase
-    .from("conduct_reports")
-    .select(`*, staff_profiles (full_name, title)`)
-    .eq("student_id", user?.id)
-    .order("created_at", { ascending: false });
+  const profile = await fetchStudentProfile(user?.id as string);
 
   const safeRecords = record || [];
 
-  function countSanctionDays(records: any[]) {
+  function countSanctionDays(records: ConductReportWithReporter[]) {
     let merit = 0;
     let demerit = 0;
     let netSanction = 0;
