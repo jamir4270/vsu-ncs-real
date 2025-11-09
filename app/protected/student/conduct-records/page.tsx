@@ -1,9 +1,10 @@
-import { columns, Record } from "./_components/columns";
+import { columns } from "./_components/columns";
+import { StudentConductRecord } from "@/types";
 import { createClient } from "@/lib/supabase/server";
 import { DataTable } from "./_components/data-table";
 import ConductCardList from "./_components/conduct-card-list";
 
-async function getData(): Promise<Record[]> {
+async function getData(): Promise<StudentConductRecord[]> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -15,7 +16,7 @@ async function getData(): Promise<Record[]> {
     .eq("student_id", user?.id)
     .order("created_at", { ascending: false });
 
-  const data: Record[] =
+  const data: StudentConductRecord[] =
     records?.map((record) => ({
       id: record.id,
       date: record.created_at,
@@ -28,6 +29,7 @@ async function getData(): Promise<Record[]> {
         : record.sanction_days > 0
         ? "Demerit"
         : "Merit",
+      sanction_other: record.sanction_other,
     })) || [];
 
   return data;

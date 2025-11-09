@@ -2,12 +2,11 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
-import React from "react";
-// dropdown-menu not used in this file
+import { StudentConductRecord } from "@/types"; // dropdown-menu not used in this file
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Record = {
+/*export type Record = {
   id: string;
   date: string;
   reporter: string;
@@ -15,9 +14,9 @@ export type Record = {
   description: string;
   is_serious_infraction: boolean;
   type: "Merit" | "Demerit" | "Serious Infraction";
-};
+};*/
 
-export const columns: ColumnDef<Record>[] = [
+export const columns: ColumnDef<StudentConductRecord>[] = [
   {
     accessorKey: "date",
     header: "Date",

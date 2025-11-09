@@ -1,7 +1,7 @@
 "use client";
 
 import ConductCard from "../../dashboard/_components/conduct-card";
-import { Record } from "./columns";
+import { StudentConductRecord } from "@/types";
 import { useState } from "react";
 import {
   DropdownMenu,
@@ -16,7 +16,7 @@ import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type ConductCardListProps = {
-  data: Record[];
+  data: StudentConductRecord[];
 };
 
 export default function ConductCardList({ data }: ConductCardListProps) {
