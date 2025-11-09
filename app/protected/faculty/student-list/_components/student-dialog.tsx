@@ -13,9 +13,32 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
 
+type StudentDialogProps = {
+  id: string;
+};
 
-export function StudentDialog() {
+export function StudentDialog({ id }: StudentDialogProps) {
+  const [name, setName] = useState("");
+  const [studentID, setStudentID] = useState("");
+
+  useEffect(() => {
+    async function fetchName(studentID: string) {
+      const supabase = await createClient();
+      const { data: profile } = await supabase
+        .from("student_profiles")
+        .select("full_name, student_id")
+        .eq("id", studentID)
+        .single();
+
+      setName(profile?.full_name);
+      setStudentID(profile?.student_id);
+    }
+
+    fetchName(id);
+  });
   return (
     <Dialog>
       <form>
@@ -26,11 +49,8 @@ export function StudentDialog() {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </DialogDescription>
+            <DialogTitle>{name}</DialogTitle>
+            <DialogDescription>{studentID}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
