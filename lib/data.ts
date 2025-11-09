@@ -1,3 +1,4 @@
+import { profile } from "console";
 import { createClient } from "./supabase/server";
 import {
   StudentProfile,
@@ -5,7 +6,7 @@ import {
   ConductReport,
   ConductReportWithReporter,
   StudentConductRecord,
-  FacultyLoggedStudentRecord,
+  FacultyStudentRecord,
   ConductReportWithStudent,
 } from "@/types";
 
@@ -132,5 +133,41 @@ export async function fetchFacultyReportsWithStudent(id: string) {
       error
     );
     throw new Error("Failed to fetch faculty reports with student.");
+  }
+}
+
+export async function fetchFacultyStudentList() {
+  const supabase = await createClient();
+
+  try {
+    const studentProfiles = await fetchStudentProfiles();
+
+    const { data: reports, error: reportsError } = await supabase
+      .from("conduct_reports")
+      .select("student_id, sanction_days");
+
+    if (reportsError) {
+      throw new Error(reportsError.message);
+    }
+
+    const sanctionTotals = (reports || []).reduce((acc, report) => {
+      acc[report.student_id] =
+        (acc[report.student_id] || 0) + report.sanction_days;
+      return acc;
+    }, {} as Record<string, number>);
+
+    const studentList = (studentProfiles || []).map((student) => ({
+      id: student.id,
+      full_name: student.full_name,
+      student_id: student.student_id,
+      year_level: student.year_level,
+      sex: student.sex,
+      net_sanction: sanctionTotals[student.id] || 0,
+    }));
+
+    return studentList as FacultyStudentRecord[];
+  } catch (error) {
+    console.log("Database error: Failed to fetch reports.", error);
+    throw new Error("Failed to fetch student list data.");
   }
 }

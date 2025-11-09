@@ -1,15 +1,15 @@
 "use client";
 
-import { StudentProfile } from "./columns";
+import { FacultyStudentRecord } from "@/types";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import StudentCard from "./student-card";
 
-type ConductCardListProps = {
-  data: StudentProfile[];
+type StudentCardListProps = {
+  data: FacultyStudentRecord[];
 };
 
-export default function ConductCardList({ data }: ConductCardListProps) {
+export default function StudentCardList({ data }: StudentCardListProps) {
   let records = data;
   const safeRecords = data;
   const [studentRecords, setStudentRecords] = useState(safeRecords);
