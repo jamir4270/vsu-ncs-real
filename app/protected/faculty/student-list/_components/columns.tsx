@@ -35,7 +35,7 @@ export const columns: ColumnDef<FacultyStudentRecord>[] = [
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      return <StudentDialog id={row.id} />;
+      return <StudentDialog id={row.original.id} />;
     },
   },
 ];
