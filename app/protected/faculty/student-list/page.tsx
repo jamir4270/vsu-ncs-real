@@ -1,10 +1,10 @@
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 import StudentCardList from "./_components/student-card-list";
-import { fetchFacultyStudentList } from "@/lib/data";
+import { fetchDefaultStudentList } from "@/lib/data";
 
 export default async function ConductRecords() {
-  const data = await fetchFacultyStudentList();
+  const data = await fetchDefaultStudentList();
   return (
     <div className="flex flex-col w-full p-8 gap-5">
       <div className="flex flex-col gap-2">
