@@ -1,4 +1,4 @@
-import { profile } from "console";
+"use server";
 import { createClient } from "./supabase/server";
 import {
   StudentProfile,
