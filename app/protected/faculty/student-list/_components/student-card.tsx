@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { StudentProfile } from "./columns";
+import { FacultyStudentRecord } from "@/types";
 import { StudentDialog } from "./student-dialog";
 
 export default function StudentCard({
@@ -18,7 +18,7 @@ export default function StudentCard({
   year_level,
   sex,
   net_sanction,
-}: StudentProfile) {
+}: FacultyStudentRecord) {
   return (
     <Card>
       <CardHeader>
