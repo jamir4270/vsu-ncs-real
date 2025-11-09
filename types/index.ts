@@ -6,6 +6,7 @@ export interface SidebarProps {
   icon: React.ComponentType<LucideProps>;
 }
 
+//Raw Data
 export type StudentProfile = {
   id: string;
   full_name: string;
@@ -29,7 +30,7 @@ export type ConductReport = {
   faculty_id: string;
   description: string;
   is_serious_infraction: boolean;
-  sanction_days: string;
+  sanction_days: number;
   sanction_other: string | null;
 };
 
@@ -37,6 +38,7 @@ export type ConductReportWithReporter = ConductReport & {
   staff_profiles: Pick<StaffProfile, "full_name" | "title"> | null;
 };
 
+//Clean Data
 export type StudentConductRecord = {
   id: string;
   date: string;
