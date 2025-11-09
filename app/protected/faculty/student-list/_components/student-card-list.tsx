@@ -1,7 +1,7 @@
 "use client";
 
 import { FacultyStudentRecord } from "@/types";
-import { useState, useEffect, startTransition, useTransition } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { useDebounce } from "use-debounce";
 import { Input } from "@/components/ui/input";
 import StudentCard from "./student-card";

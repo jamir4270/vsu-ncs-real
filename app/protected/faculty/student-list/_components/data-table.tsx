@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useTransition } from "react";
+import { useDebounce } from "use-debounce";
 import { Input } from "@/components/ui/input";
 import {
   ColumnDef,
   ColumnFiltersState,
-  SortingState,
   flexRender,
   VisibilityState,
   getCoreRowModel,
@@ -13,6 +13,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+
+import { searchStudentByNameOrID } from "@/lib/data";
 
 import {
   Table,
@@ -32,20 +34,34 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const safeRecords = data;
+  const [query, setQuery] = useState("");
+  const [debouncedQuery] = useDebounce(query, 300);
+  const [studentRecords, setStudentRecords] = useState(safeRecords);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (debouncedQuery.length === 0) {
+      setStudentRecords(safeRecords);
+    }
+
+    startTransition(async () => {
+      const newList = await searchStudentByNameOrID(debouncedQuery);
+      setStudentRecords(newList as TData[]);
+    });
+  }, [debouncedQuery, safeRecords]);
+
   const table = useReactTable({
-    data,
+    data: studentRecords,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     getSortedRowModel: getSortedRowModel(),
     state: {
-      sorting,
       columnFilters,
       columnVisibility,
     },
@@ -62,15 +78,8 @@ export function DataTable<TData, TValue>({
           <div className="flex items-center py-4">
             <Input
               placeholder="Search student ..."
-              value={
-                (table.getColumn("student_id")?.getFilterValue() as string) ??
-                ""
-              }
-              onChange={(event) =>
-                table
-                  .getColumn("student_id")
-                  ?.setFilterValue(event.target.value)
-              }
+              value={query}
+              onChange={(event) => setQuery(event.target.value ?? "")}
               className="max-w-sm"
             />
           </div>
@@ -113,13 +122,22 @@ export function DataTable<TData, TValue>({
                   ))}
                 </TableRow>
               ))
+            ) : isPending ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  Searching...
+                </TableCell>
+              </TableRow>
             ) : (
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No Results
                 </TableCell>
               </TableRow>
             )}
