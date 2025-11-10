@@ -56,7 +56,7 @@ export default async function StudentRecordPage({
             <CardDescription>
               Personal details and academic details
             </CardDescription>
-            <CardContent className="flex flex-row flex-wrap px-0 pt-4 justify-between ">
+            <CardContent className="flex flex-col md:flex-row px-0 pt-4 justify-between ">
               <div className="flex-1">
                 <p>Full Name</p>
                 <h1>{student.full_name}</h1>
