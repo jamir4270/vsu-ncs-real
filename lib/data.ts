@@ -87,6 +87,31 @@ export async function fetchStaffProfiles() {
   }
 }
 
+export async function fetchStaffProfilesAdmin() {
+  const supabase = await createClient();
+
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const { data, error } = await supabase
+      .from("staff_profiles")
+      .select("*")
+      .neq("id", user?.id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data as StaffProfile[];
+  } catch (error) {
+    console.error("Database Error: Failed to fetch staff profiles.", error);
+
+    throw new Error("Failed to fetch staff profiles.");
+  }
+}
+
 export async function fetchStudentConductRecords(id: string) {
   const rawRecord = await fetchStudentConductRecordsWithReporter(id);
 

@@ -1,10 +1,10 @@
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";
 import StaffCardList from "./_components/staff-card-list";
-import { fetchStaffProfiles } from "@/lib/data";
+import { fetchStaffProfilesAdmin } from "@/lib/data";
 
 export default async function ConductRecords() {
-  const data = await fetchStaffProfiles();
+  const data = await fetchStaffProfilesAdmin();
   return (
     <div className="flex flex-col w-full p-8 gap-5">
       <div className="flex flex-col gap-2">
