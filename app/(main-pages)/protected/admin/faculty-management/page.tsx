@@ -13,7 +13,7 @@ export default async function ConductRecords() {
           Complete record of all merits, demerits, and serious infractions.
         </p>
       </div>
-      <div className="hidden md:block container mx-auto p-4 bg-white rounded-2xl">
+      <div className="hidden md:block container mx-auto rounded-2xl">
         <DataTable columns={columns} data={data} />
       </div>
       <div className="md:hidden">
