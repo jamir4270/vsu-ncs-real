@@ -53,7 +53,7 @@ export default async function StudentRecordPage({
       <div>
         <Card>
           <CardHeader>
-            <CardTitle>Student Information</CardTitle>
+            <CardTitle className="text-xl">Student Information</CardTitle>
             <CardDescription>
               Personal details and academic details
             </CardDescription>
