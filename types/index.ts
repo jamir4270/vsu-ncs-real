@@ -18,6 +18,7 @@ export type StudentProfile = {
 export type StaffProfile = {
   id: string;
   full_name: string;
+  role: string;
   employee_id: string;
   title: string;
   sex: string;

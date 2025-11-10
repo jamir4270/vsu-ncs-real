@@ -3,7 +3,6 @@ import { createClient } from "./supabase/server";
 import {
   StudentProfile,
   StaffProfile,
-  ConductReport,
   ConductReportWithReporter,
   StudentConductRecord,
   FacultyStudentRecord,
@@ -75,6 +74,31 @@ export async function fetchStaffProfiles() {
 
   try {
     const { data, error } = await supabase.from("staff_profiles").select("*");
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data as StaffProfile[];
+  } catch (error) {
+    console.error("Database Error: Failed to fetch staff profiles.", error);
+
+    throw new Error("Failed to fetch staff profiles.");
+  }
+}
+
+export async function fetchStaffProfilesAdmin() {
+  const supabase = await createClient();
+
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const { data, error } = await supabase
+      .from("staff_profiles")
+      .select("*")
+      .neq("id", user?.id);
 
     if (error) {
       throw new Error(error.message);
@@ -294,3 +318,5 @@ export async function fetchDefaultStudentList() {
     throw new Error("Failed to fetch default student list.");
   }
 }
+
+
