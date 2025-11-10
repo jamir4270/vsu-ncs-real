@@ -1,8 +1,8 @@
-import { columns } from "./_components/columns";
 import { StudentConductRecord } from "@/types";
 import { createClient } from "@/lib/supabase/server";
-import { DataTable } from "./_components/data-table";
-import ConductCardList from "./_components/conduct-card-list";
+import { columns } from "@/app/(detail-pages)/records/_components/conduct-records-column";
+import ConductCardList from "@/app/(detail-pages)/records/_components/conduct-card-list";
+import { DataTable } from "@/app/(detail-pages)/records/_components/conduct-records-table";
 
 async function getData(): Promise<StudentConductRecord[]> {
   const supabase = await createClient();
