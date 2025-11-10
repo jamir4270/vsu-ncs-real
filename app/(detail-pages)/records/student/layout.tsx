@@ -19,9 +19,14 @@ export default async function RecordsLayout({
       : "/protected/faculty/student-list";
   return (
     <div>
-      <Link href={returnURL}>
-        <ArrowLeft />
-      </Link>
+      <div className="flex flex-row justify-between">
+        <Link href={returnURL}>
+          <ArrowLeft />
+        </Link>
+        <h1>Student Profile</h1>
+        <div></div>
+      </div>
+
       <main>{children}</main>
     </div>
   );
