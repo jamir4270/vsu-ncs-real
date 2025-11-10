@@ -1,8 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { StudentDialog } from "./student-dialog";
-import { FacultyStudentRecord } from "@/types"; // dropdown-menu not used in this file
+import { FacultyStudentRecord } from "@/types";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -35,7 +36,11 @@ export const columns: ColumnDef<FacultyStudentRecord>[] = [
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      return <StudentDialog id={row.original.id} />;
+      return (
+        <Button>
+          <Link href={`/records/student/${row.original.id}`}>View</Link>
+        </Button>
+      );
     },
   },
 ];
