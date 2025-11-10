@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import TotalsCard from "./_components/totals-card";
+import TotalsCard from "@/app/(detail-pages)/records/_components/totals-card";
 import ConductCard from "@/app/(detail-pages)/records/_components/conduct-card";
 import { ConductReportWithReporter } from "@/types";
 
