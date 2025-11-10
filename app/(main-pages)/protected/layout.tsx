@@ -53,7 +53,7 @@ export default async function StudentLayout({
         icon: LayoutDashboard,
       },
       {
-        title: "Student List",
+        title: "Student Records",
         url: "/protected/faculty/student-list",
         icon: History,
       },
@@ -87,11 +87,6 @@ export default async function StudentLayout({
       {
         title: "Faculty Management",
         url: "/protected/admin/faculty-management",
-        icon: History,
-      },
-      {
-        title: "Student Records",
-        url: "/protected/admin/student-records",
         icon: History,
       },
       {
