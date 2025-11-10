@@ -18,6 +18,7 @@ export type StudentProfile = {
 export type StaffProfile = {
   id: string;
   full_name: string;
+  role: string;
   employee_id: string;
   title: string;
   sex: string;
@@ -61,13 +62,4 @@ export type FacultyStudentRecord = {
   year_level: number;
   sex: string;
   net_sanction: number;
-};
-
-export type StaffProfileProcessed = {
-  id: string;
-  full_name: string;
-  role: string;
-  title: string;
-  employee_id: string;
-  sex: string;
 };

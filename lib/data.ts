@@ -3,7 +3,6 @@ import { createClient } from "./supabase/server";
 import {
   StudentProfile,
   StaffProfile,
-  ConductReport,
   ConductReportWithReporter,
   StudentConductRecord,
   FacultyStudentRecord,
@@ -294,3 +293,5 @@ export async function fetchDefaultStudentList() {
     throw new Error("Failed to fetch default student list.");
   }
 }
+
+

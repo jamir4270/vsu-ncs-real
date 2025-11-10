@@ -3,42 +3,43 @@
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { FacultyStudentRecord } from "@/types"; // dropdown-menu not used in this file
+import { StaffProfile } from "@/types"; // dropdown-menu not used in this file
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-/*export type StudentProfile = {
+/*export type StaffProfileProcessed = {
   id: string;
   full_name: string;
-  student_id: string;
-  year_level: number;
+  role: string;
+  title: string;
+  employee_id: string;
   sex: string;
-  net_sanction: number;
-};*/
+};;*/
 
-export const columns: ColumnDef<FacultyStudentRecord>[] = [
+export const columns: ColumnDef<StaffProfile>[] = [
   { accessorKey: "full_name", header: "Name" },
+  { accessorKey: "role", header: "Role" },
+  { accessorKey: "title", header: "Title" },
   {
-    accessorKey: "student_id",
-    header: "Student ID",
+    accessorKey: "employee_id",
+    header: "ID",
     filterFn: (row, columnId, filterValue) => {
-      const stud_id = row.original.student_id.toLowerCase();
+      const id = row.original.employee_id.toLowerCase();
       const name = row.original.full_name.toLowerCase();
       const searchValue = (filterValue as string).toLowerCase();
 
-      return stud_id.includes(searchValue) || name.includes(searchValue);
+      return id.includes(searchValue) || name.includes(searchValue);
     },
   },
-  { accessorKey: "year_level", header: "Year Level" },
+
   { accessorKey: "sex", header: "Sex" },
-  { accessorKey: "net_sanction", header: "Net Sanction (Days)" },
   {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
       return (
         <Button>
-          <Link href={`/records/student/${row.original.id}`}>View</Link>
+          <Link href={`/records/staff/${row.original.id}`}>View</Link>
         </Button>
       );
     },

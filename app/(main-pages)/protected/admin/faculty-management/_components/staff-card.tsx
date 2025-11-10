@@ -8,31 +8,30 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { FacultyStudentRecord } from "@/types";
+import { StaffProfile } from "@/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-export default function StudentCard({
+export default function StaffCard({
   id,
   full_name,
-  student_id,
-  year_level,
+  role,
+  employee_id,
+  title,
   sex,
-  net_sanction,
-}: FacultyStudentRecord) {
+}: StaffProfile) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{full_name}</CardTitle>
-        <CardDescription>{student_id}</CardDescription>
+        <CardTitle>{role}</CardTitle>
+        <CardDescription>{employee_id}</CardDescription>
         <CardAction>
           <Button>
-            <Link href={`/records/student/${id}`}>View</Link>
+            <Link href={`/records/staff/${id}`}>View</Link>
           </Button>
         </CardAction>
+        <CardContent>{`${title} ${full_name}`}</CardContent>
       </CardHeader>
-      <CardContent>{`${net_sanction} days`}</CardContent>
       <CardFooter className="flex flex-col items-start">
-        <p>{`Year Level: ${year_level}`}</p>
         <p>{`Sex: ${sex}`}</p>
       </CardFooter>
     </Card>
