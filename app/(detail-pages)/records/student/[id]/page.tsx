@@ -4,6 +4,7 @@ import { columns } from "../../_components/conduct-records-column";
 import { DataTable } from "../../_components/conduct-records-table";
 import ConductCardList from "../../_components/conduct-card-list";
 import TotalsCard from "../../_components/totals-card";
+import InfoCard from "../../_components/info-card";
 import {
   Card,
   CardContent,
@@ -57,22 +58,10 @@ export default async function StudentRecordPage({
               Personal details and academic details
             </CardDescription>
             <CardContent className="flex flex-col md:flex-row px-0 pt-4 justify-between ">
-              <div className="flex-1">
-                <p>Full Name</p>
-                <h1>{student.full_name}</h1>
-              </div>
-              <div className="flex-1">
-                <p>Student ID</p>
-                <h1>{student.student_id}</h1>
-              </div>
-              <div className="flex-1">
-                <p>Year Level</p>
-                <h1>{student.year_level}</h1>
-              </div>
-              <div className="flex-1">
-                <p>Sex</p>
-                <h1>{student.sex}</h1>
-              </div>
+              <InfoCard title={"Full Name"} description={student.full_name} />
+              <InfoCard title={"Student ID"} description={student.student_id} />
+              <InfoCard title={"Year Level"} description={student.year_level} />
+              <InfoCard title={"Sex"} description={student.sex} />
             </CardContent>
           </CardHeader>
         </Card>
