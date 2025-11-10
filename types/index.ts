@@ -62,3 +62,12 @@ export type FacultyStudentRecord = {
   sex: string;
   net_sanction: number;
 };
+
+export type StaffProfileProcessed = {
+  id: string;
+  full_name: string;
+  role: string;
+  title: string;
+  employee_id: string;
+  sex: string;
+};
