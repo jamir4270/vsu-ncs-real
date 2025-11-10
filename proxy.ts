@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import path from "path";
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -39,6 +40,7 @@ export async function proxy(request: NextRequest) {
   const studentDashBoard = new URL("/protected/student/dashboard", request.url);
   const facultyDashBoard = new URL("/protected/faculty/dashboard", request.url);
   const adminDashBoard = new URL("/protected/admin/dashboard", request.url);
+  const records = new URL("/protected/records/student-list", request.url);
 
   if (user && pathname === "/auth/login") {
     if (userRole === "student") return NextResponse.redirect(studentDashBoard);
@@ -59,6 +61,11 @@ export async function proxy(request: NextRequest) {
   if (pathname.startsWith("/protected/admin")) {
     if (!user) return NextResponse.redirect(loginURL);
     if (userRole != "admin") return NextResponse.redirect(unauthorized);
+  }
+
+  if (pathname.startsWith("/protected/records")) {
+    if (!user) return NextResponse.redirect(loginURL);
+    if (userRole == "student") return NextResponse.redirect(unauthorized);
   }
 
   return response;
