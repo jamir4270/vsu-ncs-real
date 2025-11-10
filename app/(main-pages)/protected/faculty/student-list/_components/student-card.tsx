@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/card";
 
 import { FacultyStudentRecord } from "@/types";
-import { StudentDialog } from "./student-dialog";
-
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 export default function StudentCard({
   id,
   full_name,
@@ -25,7 +25,9 @@ export default function StudentCard({
         <CardTitle>{full_name}</CardTitle>
         <CardDescription>{student_id}</CardDescription>
         <CardAction>
-          <StudentDialog id={id} />
+          <Button>
+            <Link href={`/records/student/${id}`}>View</Link>
+          </Button>
         </CardAction>
       </CardHeader>
       <CardContent>{`${net_sanction} days`}</CardContent>

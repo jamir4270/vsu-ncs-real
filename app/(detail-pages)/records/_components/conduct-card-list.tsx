@@ -1,6 +1,6 @@
 "use client";
 
-import ConductCard from "../../dashboard/_components/conduct-card";
+import ConductCard from "./conduct-card";
 import { StudentConductRecord } from "@/types";
 import { useState } from "react";
 import {

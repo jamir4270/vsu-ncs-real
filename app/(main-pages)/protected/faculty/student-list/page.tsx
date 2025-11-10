@@ -5,6 +5,7 @@ import { fetchDefaultStudentList } from "@/lib/data";
 
 export default async function ConductRecords() {
   const data = await fetchDefaultStudentList();
+  console.log(data);
   return (
     <div className="flex flex-col w-full p-8 gap-5">
       <div className="flex flex-col gap-2">

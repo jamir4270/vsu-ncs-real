@@ -23,56 +23,60 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-  import { Button } from "@/components/ui/button";
-  import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu";
+import { Card } from "@/components/ui/card";
 
-  import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-  interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[];
-    data: TData[];
+import { ChevronDown } from "lucide-react";
+
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+}
+
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [type, setType] = React.useState("All Type");
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+    },
+  });
+
+  function filterByType(type: string) {
+    setType(type);
+    table.getColumn("type")?.setFilterValue(type === "All Type" ? "" : type);
   }
 
-  export function DataTable<TData, TValue>({
-    columns,
-    data,
-  }: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [type, setType] = React.useState("All Type");
-    const [columnFilters, setColumnFilters] =
-      React.useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] =
-      React.useState<VisibilityState>({});
-    const table = useReactTable({
-      data,
-      columns,
-      getCoreRowModel: getCoreRowModel(),
-      onSortingChange: setSorting,
-      onColumnFiltersChange: setColumnFilters,
-      getFilteredRowModel: getFilteredRowModel(),
-      onColumnVisibilityChange: setColumnVisibility,
-      getSortedRowModel: getSortedRowModel(),
-      state: {
-        sorting,
-        columnFilters,
-        columnVisibility,
-      },
-    });
-
-    function filterByType(type: string) {
-      setType(type);
-      table.getColumn("type")?.setFilterValue(type === "All Type" ? "" : type);
-    }
-
-    return (
-      <div className="space-y-6">
+  return (
+    <div>
+      <Card className="space-y-6 px-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-[18px]">
             <h1 className="font-semibold">Conduct Records</h1>
@@ -166,6 +170,7 @@ import {
             </TableBody>
           </Table>
         </div>
-      </div>
-    );
-  }
+      </Card>
+    </div>
+  );
+}
