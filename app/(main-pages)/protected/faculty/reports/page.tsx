@@ -1,3 +1,4 @@
+import { fetchFacultyReportsWithStudent } from "@/lib/data";
 import ReportCardList from "./_components/report-card-list";
 import { createClient } from "@/lib/supabase/server";
 
@@ -8,11 +9,7 @@ export default async function ReportsPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: records } = await supabase
-    .from("conduct_reports")
-    .select("*, student_profiles(full_name, student_id)")
-    .eq("faculty_id", user?.id)
-    .order("created_at", { ascending: false });
+  const records = await fetchFacultyReportsWithStudent(user?.id as string);
 
   return (
     <div className="flex flex-col w-full p-8 gap-5">
