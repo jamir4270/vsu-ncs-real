@@ -1,9 +1,12 @@
 import {
+  fetchStudentConductRecords,
   fetchStudentConductRecordsWithReporter,
   fetchStudentProfile,
 } from "@/lib/data";
-import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
+import { columns } from "../../_components/conduct-records-column";
+import { DataTable } from "../../_components/conduct-records-table";
+import { StudentConductRecord } from "@/types";
 
 export default async function StudentRecordPage({
   params,
@@ -18,9 +21,18 @@ export default async function StudentRecordPage({
   }
 
   const studentProfile = await fetchStudentProfile(studentID);
-  const conductRecords = await fetchStudentConductRecordsWithReporter(
-    studentID
-  );
+  const conductRecords = await fetchStudentConductRecords(studentID);
 
-  return <div>{studentProfile.full_name}</div>;
+  return (
+    <div>
+      <div>Profile Basic Information Here</div>
+      <div>Summary Cards here</div>
+      <div className="p-10">
+        <DataTable
+          columns={columns}
+          data={conductRecords as StudentConductRecord[]}
+        />
+      </div>
+    </div>
+  );
 }

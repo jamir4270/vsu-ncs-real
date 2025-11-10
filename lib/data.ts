@@ -88,6 +88,29 @@ export async function fetchStaffProfiles() {
   }
 }
 
+export async function fetchStudentConductRecords(id: string) {
+  const rawRecord = await fetchStudentConductRecordsWithReporter(id);
+
+  const processedRecord: StudentConductRecord[] = rawRecord.map((record) => {
+    return {
+      id: record.id,
+      date: record.created_at,
+      reporter: `${record.staff_profiles.title} ${record.staff_profiles.full_name}`,
+      description: record.description,
+      sanction_days: record.sanction_days,
+      is_serious_infraction: record.is_serious_infraction,
+      type: record.is_serious_infraction
+        ? "Serious Infraction"
+        : record.sanction_days > 0
+        ? "Demerit"
+        : "Merit",
+      sanction_other: record.sanction_other,
+    };
+  });
+
+  return processedRecord;
+}
+
 export async function fetchStudentConductRecordsWithReporter(id: string) {
   const supabase = await createClient();
 
