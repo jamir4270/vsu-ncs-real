@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/card";
 import { StudentConductRecord } from "@/types";
 import { parseName } from "@/lib/utils";
-import { profile } from "console";
 
 export default async function StudentRecordPage({
   params,
