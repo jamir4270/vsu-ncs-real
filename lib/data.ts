@@ -8,6 +8,7 @@ import {
   FacultyStudentRecord,
   ConductReportWithStudent,
 } from "@/types";
+import { parseName } from "./utils";
 
 export async function fetchStudentProfiles() {
   const supabase = await createClient();
@@ -116,10 +117,16 @@ export async function fetchStudentConductRecords(id: string) {
   const rawRecord = await fetchStudentConductRecordsWithReporter(id);
 
   const processedRecord: StudentConductRecord[] = rawRecord.map((record) => {
+    const full_name = parseName(
+      record.staff_profiles.first_name,
+      record.staff_profiles.middle_name,
+      record.staff_profiles.last_name,
+      record.staff_profiles.suffix
+    );
     return {
       id: record.id,
       date: record.created_at,
-      reporter: `${record.staff_profiles.title} ${record.staff_profiles.full_name}`,
+      reporter: `${record.staff_profiles.title} ${full_name}`,
       description: record.description,
       sanction_days: record.sanction_days,
       is_serious_infraction: record.is_serious_infraction,
