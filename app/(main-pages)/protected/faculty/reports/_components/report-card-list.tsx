@@ -14,6 +14,7 @@ import {
 
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { parseName } from "@/lib/utils";
 
 interface StudentProfile {
   student_id: string;
