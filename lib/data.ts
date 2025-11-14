@@ -294,7 +294,12 @@ export async function searchStudentByNameOrID(query: string) {
 
     const studentList = (studentProfiles || []).map((student) => ({
       id: student.id,
-      full_name: student.full_name,
+      full_name: parseName(
+        student.first_name,
+        student.middle_name,
+        student.last_name,
+        student.suffix
+      ),
       student_id: student.student_id,
       year_level: student.year_level,
       sex: student.sex,
