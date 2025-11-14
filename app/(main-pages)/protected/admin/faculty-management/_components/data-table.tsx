@@ -85,9 +85,11 @@ export function DataTable<TData, TValue>({
       const idMatch = profile.employee_id
         .toLowerCase()
         .includes(lowerCaseQuery);
-      const nameMatch = profile.full_name
-        .toLowerCase()
-        .includes(lowerCaseQuery);
+      const nameMatch =
+        profile.first_name.toLowerCase().includes(lowerCaseQuery) ||
+        profile.middle_name.toLowerCase().includes(lowerCaseQuery) ||
+        profile.last_name.toLowerCase().includes(lowerCaseQuery) ||
+        profile.suffix.toLowerCase().includes(lowerCaseQuery);
 
       return idMatch || nameMatch;
     });
