@@ -1,6 +1,6 @@
 type InfoCardProps = {
   title: string;
-  description: string;
+  description: string | number;
 };
 
 export default function InfoCard({ title, description }: InfoCardProps) {
