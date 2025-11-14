@@ -10,6 +10,10 @@ export interface SidebarProps {
 export type StudentProfile = {
   id: string;
   full_name: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  suffix: string;
   student_id: string;
   year_level: number;
   sex: string;
@@ -18,6 +22,10 @@ export type StudentProfile = {
 export type StaffProfile = {
   id: string;
   full_name: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  suffix: string;
   role: string;
   employee_id: string;
   title: string;
@@ -36,11 +44,27 @@ export type ConductReport = {
 };
 
 export type ConductReportWithReporter = ConductReport & {
-  staff_profiles: Pick<StaffProfile, "full_name" | "title">;
+  staff_profiles: Pick<
+    StaffProfile,
+    | "full_name"
+    | "first_name"
+    | "middle_name"
+    | "last_name"
+    | "suffix"
+    | "title"
+  >;
 };
 
 export type ConductReportWithStudent = ConductReport & {
-  student_profiles: Pick<StudentProfile, "full_name" | "student_id">;
+  student_profiles: Pick<
+    StudentProfile,
+    | "full_name"
+    | "first_name"
+    | "middle_name"
+    | "last_name"
+    | "suffix"
+    | "student_id"
+  >;
 };
 
 //Clean Data
