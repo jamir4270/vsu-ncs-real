@@ -71,7 +71,7 @@ export async function fetchStaffProfile(id: string) {
       throw new Error(error.message);
     }
 
-    const cleanData: StudentProfile = data;
+    const cleanData: StaffProfile = data;
     cleanData.full_name = parseName(
       cleanData.first_name,
       cleanData.middle_name,
