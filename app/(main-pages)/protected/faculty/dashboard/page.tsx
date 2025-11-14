@@ -15,6 +15,7 @@ import {
   fetchStaffProfile,
   fetchStudentProfiles,
 } from "@/lib/data";
+import { parseName } from "@/lib/utils";
 
 export default async function StudentDashBoard() {
   const supabase = await createClient();
@@ -67,7 +68,12 @@ export default async function StudentDashBoard() {
             {recentRecordArr.map((item) => (
               <RecordCard
                 key={item.id}
-                student_name={item.student_profiles.full_name}
+                student_name={`${parseName(
+                  item.student_profiles.first_name,
+                  item.student_profiles.middle_name,
+                  item.student_profiles.last_name,
+                  item.student_profiles.suffix
+                )}`}
                 student_id={item.student_profiles.student_id}
                 description={item.description}
                 value={item.sanction_days}
