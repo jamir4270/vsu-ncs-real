@@ -3,6 +3,7 @@ import AppSidebar from "@/components/app-sidebar";
 import { LayoutDashboard, History, BriefcaseMedical } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { SidebarProps } from "@/types";
+import { parseName } from "@/lib/utils";
 export default async function StudentLayout({
   children,
 }: Readonly<{
@@ -20,7 +21,7 @@ export default async function StudentLayout({
   if (userRole === "student") {
     const { data: profile } = await supabase
       .from("student_profiles")
-      .select("full_name")
+      .select("first_name, middle_name, last_name, suffix")
       .eq("id", user?.id)
       .single();
     userProfile = profile;
@@ -41,7 +42,7 @@ export default async function StudentLayout({
   if (userRole === "faculty") {
     const { data: profile } = await supabase
       .from("staff_profiles")
-      .select("full_name, title")
+      .select("first_name, middle_name, last_name, suffix, title")
       .eq("id", user?.id)
       .single();
     userProfile = profile;
@@ -68,7 +69,7 @@ export default async function StudentLayout({
   if (userRole === "admin") {
     const { data: profile } = await supabase
       .from("staff_profiles")
-      .select("full_name, title")
+      .select("first_name, middle_name, last_name, suffix, title")
       .eq("id", user?.id)
       .single();
     userProfile = profile;
@@ -104,6 +105,13 @@ export default async function StudentLayout({
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  const full_name = parseName(
+    userProfile?.first_name,
+    userProfile?.middle_name,
+    userProfile?.last_name,
+    userProfile?.suffix
+  );
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
@@ -118,7 +126,7 @@ export default async function StudentLayout({
         </div>
         <AppSidebar
           items={items}
-          profile={userProfile?.full_name ?? "Student"}
+          profile={full_name ?? "Student"}
           role={capitalizeFirstLetter(userRole)}
         />
         <main className="flex-1 overflow-y-auto bg-[#F8F9FA] pt-16 md:ml-64 md:pt-0">
