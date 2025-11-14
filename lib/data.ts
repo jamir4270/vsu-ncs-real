@@ -258,7 +258,14 @@ export async function searchStudentByNameOrID(query: string) {
     const { data: studentProfiles, error: profilesError } = await supabase
       .from("student_profiles")
       .select("*")
-      .or(`full_name.ilike.%${query}%,` + `student_id.ilike.%${query}%`);
+      .or(
+        `first_name.ilike.%${query}%,` +
+          `middle_name.ilike.%${query}%,` +
+          `middle_name.ilike.%${query}%,` +
+          `last_name.ilike.%${query}%,` +
+          `suffix.ilike.%${query}%,` +
+          `student_id.ilike.%${query}%`
+      );
 
     if (profilesError) {
       throw new Error(profilesError.message);
@@ -337,7 +344,12 @@ export async function fetchDefaultStudentList() {
 
     const studentList = (studentProfiles || []).map((student) => ({
       id: student.id,
-      full_name: student.full_name,
+      full_name: parseName(
+        student.first_name,
+        student.middle_name,
+        student.last_name,
+        student.suffix
+      ),
       student_id: student.student_id,
       year_level: student.year_level,
       sex: student.sex,
