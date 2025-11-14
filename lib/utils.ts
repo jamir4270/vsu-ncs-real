@@ -11,9 +11,9 @@ export function parseName(
   last_name: string,
   suffix: string
 ) {
-  let full_name = `${first_name} ${middle_name
-    .charAt(0)
-    .toUpperCase()}. ${last_name} ${suffix}`;
+  const middle_initial =
+    middle_name === "" ? "" : `${middle_name.charAt(0).toUpperCase()}.`;
+  let full_name = `${first_name} ${middle_initial} ${last_name} ${suffix}`;
   full_name = full_name.trim().replace(/\s+/g, " ");
   return full_name;
 }
