@@ -42,7 +42,15 @@ export async function fetchStudentProfile(id: string) {
       throw new Error(error.message);
     }
 
-    return data;
+    const cleanData: StudentProfile = data;
+    cleanData.full_name = parseName(
+      cleanData.first_name,
+      cleanData.middle_name,
+      cleanData.last_name,
+      cleanData.suffix
+    );
+
+    return cleanData;
   } catch (error) {
     console.error("Database error: Failed to fetch student profile.", error);
     throw new Error("Failed to fetch student profile.");
