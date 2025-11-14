@@ -15,11 +15,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { parseName } from "@/lib/utils";
-
-interface StudentProfile {
-  student_id: string;
-  full_name: string;
-}
+import { StudentProfile } from "@/types";
 
 interface Report {
   id: string;
@@ -48,7 +44,7 @@ export default function ReportCardList({ data }: ReportCardListProps) {
         const matchesSearch =
           search === "" ||
           item.student_profiles.student_id.includes(search) ||
-          item.student_profiles.last_name
+          item.student_profiles.first_name
             .toLowerCase()
             .includes(search.toLowerCase()) ||
           item.student_profiles.middle_name
