@@ -36,7 +36,7 @@ export default async function StudentDashBoard() {
     <div className="flex flex-col w-full p-8 gap-5">
       <div className="flex flex-col gap-2">
         <h1 className="text-[#0A58A3] text-2xl">{`Welcome, ${
-          profile?.full_name ?? "Faculty"
+          profile?.first_name ?? "Faculty"
         }!`}</h1>
         <p className="text-[#6C757D]">
           Quick access to conduct management tools

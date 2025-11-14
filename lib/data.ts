@@ -71,7 +71,15 @@ export async function fetchStaffProfile(id: string) {
       throw new Error(error.message);
     }
 
-    return data;
+    const cleanData: StudentProfile = data;
+    cleanData.full_name = parseName(
+      cleanData.first_name,
+      cleanData.middle_name,
+      cleanData.last_name,
+      cleanData.suffix
+    );
+
+    return cleanData;
   } catch (error) {
     console.error("Database error: Failed to fetch student profile.", error);
     throw new Error("Failed to fetch student profile.");
@@ -224,7 +232,12 @@ export async function fetchFacultyStudentList() {
 
     const studentList = (studentProfiles || []).map((student) => ({
       id: student.id,
-      full_name: student.full_name,
+      full_name: parseName(
+        student.first_name,
+        student.middle_name,
+        student.last_name,
+        student.suffix
+      ),
       student_id: student.student_id,
       year_level: student.year_level,
       sex: student.sex,
