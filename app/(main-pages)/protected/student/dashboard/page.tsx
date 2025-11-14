@@ -14,6 +14,7 @@ import {
 import TotalsCard from "@/app/(detail-pages)/records/_components/totals-card";
 import ConductCard from "@/app/(detail-pages)/records/_components/conduct-card";
 import { ConductReportWithReporter } from "@/types";
+import { parseName } from "@/lib/utils";
 
 export default async function StudentDashBoard() {
   const supabase = await createClient();
@@ -54,7 +55,7 @@ export default async function StudentDashBoard() {
     <div className="flex flex-col w-full p-8 gap-5">
       <div className="flex flex-col gap-2">
         <h1 className="text-[#0A58A3] text-2xl">{`Welcome, ${
-          profile?.full_name ?? "Student"
+          profile?.first_name ?? "Student"
         }!`}</h1>
         <p className="text-[#6C757D]">
           Here&apos;s an overview of your conduct record this semester.
@@ -94,7 +95,12 @@ export default async function StudentDashBoard() {
                 value={conduct.sanction_days}
                 type={conduct.sanction_days > 0 ? "demerit/s" : "merit/s"}
                 date={new Date(conduct.created_at).toISOString().split("T")[0]}
-                reporter={`${conduct.staff_profiles.title} ${conduct.staff_profiles.full_name}`}
+                reporter={`${conduct.staff_profiles.title} ${parseName(
+                  conduct.staff_profiles.first_name,
+                  conduct.staff_profiles.middle_name,
+                  conduct.staff_profiles.last_name,
+                  conduct.staff_profiles.suffix
+                )}`}
                 badge_color={
                   conduct.is_serious_infraction
                     ? "bg-[#FB2C36]"

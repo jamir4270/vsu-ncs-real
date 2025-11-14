@@ -8,6 +8,7 @@ import {
   FacultyStudentRecord,
   ConductReportWithStudent,
 } from "@/types";
+import { parseName } from "./utils";
 
 export async function fetchStudentProfiles() {
   const supabase = await createClient();
@@ -116,10 +117,16 @@ export async function fetchStudentConductRecords(id: string) {
   const rawRecord = await fetchStudentConductRecordsWithReporter(id);
 
   const processedRecord: StudentConductRecord[] = rawRecord.map((record) => {
+    const full_name = parseName(
+      record.staff_profiles.first_name,
+      record.staff_profiles.middle_name,
+      record.staff_profiles.last_name,
+      record.staff_profiles.suffix
+    );
     return {
       id: record.id,
       date: record.created_at,
-      reporter: `${record.staff_profiles.title} ${record.staff_profiles.full_name}`,
+      reporter: `${record.staff_profiles.title} ${full_name}`,
       description: record.description,
       sanction_days: record.sanction_days,
       is_serious_infraction: record.is_serious_infraction,
@@ -141,7 +148,9 @@ export async function fetchStudentConductRecordsWithReporter(id: string) {
   try {
     const { data, error } = await supabase
       .from("conduct_reports")
-      .select("*, staff_profiles (full_name, title)")
+      .select(
+        "*, staff_profiles (first_name, middle_name, last_name, suffix, title)"
+      )
       .eq("student_id", id)
       .order("created_at", { ascending: false });
 
@@ -165,7 +174,9 @@ export async function fetchFacultyReportsWithStudent(id: string) {
   try {
     const { data, error } = await supabase
       .from("conduct_reports")
-      .select("*, student_profiles (full_name, student_id)")
+      .select(
+        "*, student_profiles (first_name, middle_name, last_name, suffix, student_id)"
+      )
       .eq("faculty_id", id)
       .order("created_at", { ascending: false });
 
@@ -205,7 +216,12 @@ export async function fetchFacultyStudentList() {
 
     const studentList = (studentProfiles || []).map((student) => ({
       id: student.id,
-      full_name: student.full_name,
+      full_name: parseName(
+        student.first_name,
+        student.middle_name,
+        student.last_name,
+        student.suffix
+      ),
       student_id: student.student_id,
       year_level: student.year_level,
       sex: student.sex,
@@ -226,7 +242,14 @@ export async function searchStudentByNameOrID(query: string) {
     const { data: studentProfiles, error: profilesError } = await supabase
       .from("student_profiles")
       .select("*")
-      .or(`full_name.ilike.%${query}%,` + `student_id.ilike.%${query}%`);
+      .or(
+        `first_name.ilike.%${query}%,` +
+          `middle_name.ilike.%${query}%,` +
+          `middle_name.ilike.%${query}%,` +
+          `last_name.ilike.%${query}%,` +
+          `suffix.ilike.%${query}%,` +
+          `student_id.ilike.%${query}%`
+      );
 
     if (profilesError) {
       throw new Error(profilesError.message);
@@ -255,7 +278,12 @@ export async function searchStudentByNameOrID(query: string) {
 
     const studentList = (studentProfiles || []).map((student) => ({
       id: student.id,
-      full_name: student.full_name,
+      full_name: parseName(
+        student.first_name,
+        student.middle_name,
+        student.last_name,
+        student.suffix
+      ),
       student_id: student.student_id,
       year_level: student.year_level,
       sex: student.sex,
@@ -305,7 +333,12 @@ export async function fetchDefaultStudentList() {
 
     const studentList = (studentProfiles || []).map((student) => ({
       id: student.id,
-      full_name: student.full_name,
+      full_name: parseName(
+        student.first_name,
+        student.middle_name,
+        student.last_name,
+        student.suffix
+      ),
       student_id: student.student_id,
       year_level: student.year_level,
       sex: student.sex,
@@ -318,5 +351,3 @@ export async function fetchDefaultStudentList() {
     throw new Error("Failed to fetch default student list.");
   }
 }
-
-

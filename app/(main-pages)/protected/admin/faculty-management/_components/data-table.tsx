@@ -85,9 +85,11 @@ export function DataTable<TData, TValue>({
       const idMatch = profile.employee_id
         .toLowerCase()
         .includes(lowerCaseQuery);
-      const nameMatch = profile.full_name
-        .toLowerCase()
-        .includes(lowerCaseQuery);
+      const nameMatch =
+        profile.first_name.toLowerCase().includes(lowerCaseQuery) ||
+        profile.middle_name.toLowerCase().includes(lowerCaseQuery) ||
+        profile.last_name.toLowerCase().includes(lowerCaseQuery) ||
+        profile.suffix.toLowerCase().includes(lowerCaseQuery);
 
       return idMatch || nameMatch;
     });
@@ -105,7 +107,7 @@ export function DataTable<TData, TValue>({
           </div>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
             <Input
-              placeholder="Filter emails..."
+              placeholder="Search faculty by name or id..."
               value={query}
               onChange={(event) => searchByNameOrID(event.target.value)}
               className="max-w-sm"

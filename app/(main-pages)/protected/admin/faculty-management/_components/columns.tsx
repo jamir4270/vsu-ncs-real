@@ -3,7 +3,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { StaffProfile } from "@/types"; // dropdown-menu not used in this file
+import { StaffProfile } from "@/types";
+import { parseName } from "@/lib/utils"; // dropdown-menu not used in this file
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -17,19 +18,17 @@ import { StaffProfile } from "@/types"; // dropdown-menu not used in this file
 };;*/
 
 export const columns: ColumnDef<StaffProfile>[] = [
-  { accessorKey: "full_name", header: "Name" },
+  {
+    id: "full_name",
+    header: "Name",
+    accessorFn: (row) =>
+      parseName(row.first_name, row.middle_name, row.last_name, row.suffix),
+  },
   { accessorKey: "role", header: "Role" },
   { accessorKey: "title", header: "Title" },
   {
     accessorKey: "employee_id",
     header: "ID",
-    filterFn: (row, columnId, filterValue) => {
-      const id = row.original.employee_id.toLowerCase();
-      const name = row.original.full_name.toLowerCase();
-      const searchValue = (filterValue as string).toLowerCase();
-
-      return id.includes(searchValue) || name.includes(searchValue);
-    },
   },
 
   { accessorKey: "sex", header: "Sex" },

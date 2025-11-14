@@ -6,9 +6,9 @@ export default async function StudentRecordPage({
   params: { id: string };
 }) {
   const { id } = await params;
-  const studentID = id;
+  const staffID = id;
 
-  if (!studentID || studentID === "undefined") {
+  if (!staffID || staffID === "undefined") {
     notFound();
   }
 

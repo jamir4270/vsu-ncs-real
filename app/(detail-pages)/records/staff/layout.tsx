@@ -15,8 +15,8 @@ export default async function RecordsLayout({
   const userRole = user?.app_metadata?.role as string;
   const returnURL =
     userRole === "admin"
-      ? "/protected/admin/student-management"
-      : "/protected/faculty/student-list";
+      ? "/protected/admin/faculty-management"
+      : "/unauthorized";
   return (
     <div className="min-h-screen bg-[#F8F9FA]">
       <header className="bg-white border-b shadow-sm">
