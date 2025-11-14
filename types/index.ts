@@ -9,7 +9,6 @@ export interface SidebarProps {
 //Raw Data
 export type StudentProfile = {
   id: string;
-  full_name: string;
   first_name: string;
   middle_name: string;
   last_name: string;
@@ -21,7 +20,6 @@ export type StudentProfile = {
 
 export type StaffProfile = {
   id: string;
-  full_name: string;
   first_name: string;
   middle_name: string;
   last_name: string;
@@ -46,24 +44,21 @@ export type ConductReport = {
 export type ConductReportWithReporter = ConductReport & {
   staff_profiles: Pick<
     StaffProfile,
-    | "full_name"
-    | "first_name"
-    | "middle_name"
-    | "last_name"
-    | "suffix"
-    | "title"
+    "first_name" | "middle_name" | "last_name" | "suffix" | "title"
   >;
 };
 
 export type ConductReportWithStudent = ConductReport & {
   student_profiles: Pick<
     StudentProfile,
-    | "full_name"
+    | "id"
     | "first_name"
     | "middle_name"
     | "last_name"
     | "suffix"
     | "student_id"
+    | "year_level"
+    | "sex"
   >;
 };
 

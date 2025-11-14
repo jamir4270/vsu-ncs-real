@@ -42,15 +42,7 @@ export async function fetchStudentProfile(id: string) {
       throw new Error(error.message);
     }
 
-    const cleanData: StudentProfile = data;
-    cleanData.full_name = parseName(
-      cleanData.first_name,
-      cleanData.middle_name,
-      cleanData.last_name,
-      cleanData.suffix
-    );
-
-    return cleanData;
+    return data;
   } catch (error) {
     console.error("Database error: Failed to fetch student profile.", error);
     throw new Error("Failed to fetch student profile.");
@@ -71,15 +63,7 @@ export async function fetchStaffProfile(id: string) {
       throw new Error(error.message);
     }
 
-    const cleanData: StaffProfile = data;
-    cleanData.full_name = parseName(
-      cleanData.first_name,
-      cleanData.middle_name,
-      cleanData.last_name,
-      cleanData.suffix
-    );
-
-    return cleanData;
+    return data;
   } catch (error) {
     console.error("Database error: Failed to fetch student profile.", error);
     throw new Error("Failed to fetch student profile.");
