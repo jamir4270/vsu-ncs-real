@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
+import { parseName } from "@/lib/utils";
 
 type StudentCardListProps = {
   data: StaffProfile[];
@@ -41,9 +42,11 @@ export default function StaffCardList({ data }: StudentCardListProps) {
       const idMatch = profile.employee_id
         .toLowerCase()
         .includes(lowerCaseQuery);
-      const nameMatch = profile.full_name
-        .toLowerCase()
-        .includes(lowerCaseQuery);
+      const nameMatch =
+        profile.first_name.toLowerCase().includes(lowerCaseQuery) ||
+        profile.middle_name.toLowerCase().includes(lowerCaseQuery) ||
+        profile.last_name.toLowerCase().includes(lowerCaseQuery) ||
+        profile.suffix.toLowerCase().includes(lowerCaseQuery);
 
       return idMatch || nameMatch;
     });
@@ -93,7 +96,12 @@ export default function StaffCardList({ data }: StudentCardListProps) {
         <StaffCard
           key={profile.id}
           id={profile.id}
-          full_name={profile.full_name}
+          full_name={`${parseName(
+            profile.first_name,
+            profile.middle_name,
+            profile.last_name,
+            profile.suffix
+          )}`}
           role={profile.role}
           employee_id={profile.employee_id}
           title={profile.title}

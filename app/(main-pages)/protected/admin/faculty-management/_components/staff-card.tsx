@@ -8,9 +8,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { StaffProfile } from "@/types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+
+type StaffCardProps = {
+  id: string;
+  full_name: string;
+  role: string;
+  employee_id: string;
+  title: string;
+  sex: string;
+};
 export default function StaffCard({
   id,
   full_name,
@@ -18,7 +26,7 @@ export default function StaffCard({
   employee_id,
   title,
   sex,
-}: StaffProfile) {
+}: StaffCardProps) {
   return (
     <Card>
       <CardHeader>
