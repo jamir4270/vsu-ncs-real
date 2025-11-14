@@ -149,7 +149,7 @@ export async function fetchStudentConductRecordsWithReporter(id: string) {
     const { data, error } = await supabase
       .from("conduct_reports")
       .select(
-        "*, staff_profiles (full_name, first_name, middle_name, last_name, suffix, title)"
+        "*, staff_profiles (first_name, middle_name, last_name, suffix, title)"
       )
       .eq("student_id", id)
       .order("created_at", { ascending: false });
@@ -175,7 +175,7 @@ export async function fetchFacultyReportsWithStudent(id: string) {
     const { data, error } = await supabase
       .from("conduct_reports")
       .select(
-        "*, student_profiles (full_name, first_name, middle_name, last_name, suffix, student_id)"
+        "*, student_profiles (first_name, middle_name, last_name, suffix, student_id)"
       )
       .eq("faculty_id", id)
       .order("created_at", { ascending: false });
