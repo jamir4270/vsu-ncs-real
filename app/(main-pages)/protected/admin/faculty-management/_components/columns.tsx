@@ -23,13 +23,13 @@ export const columns: ColumnDef<StaffProfile>[] = [
   {
     accessorKey: "employee_id",
     header: "ID",
-    filterFn: (row, columnId, filterValue) => {
+    /*filterFn: (row, columnId, filterValue) => {
       const id = row.original.employee_id.toLowerCase();
       const name = row.original.full_name.toLowerCase();
       const searchValue = (filterValue as string).toLowerCase();
 
       return id.includes(searchValue) || name.includes(searchValue);
-    },
+    },*/
   },
 
   { accessorKey: "sex", header: "Sex" },

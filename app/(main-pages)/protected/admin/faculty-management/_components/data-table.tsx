@@ -107,7 +107,7 @@ export function DataTable<TData, TValue>({
           </div>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
             <Input
-              placeholder="Filter emails..."
+              placeholder="Search faculty by name or id..."
               value={query}
               onChange={(event) => searchByNameOrID(event.target.value)}
               className="max-w-sm"
